@@ -18,6 +18,11 @@ class CategoryController extends Controller
         return Category::all();
     }
 
+    public function index_v2()
+    {
+        return Category::select('id', 'name')->get();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
