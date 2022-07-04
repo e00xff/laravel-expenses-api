@@ -36,8 +36,14 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
+        $category = Category::find($id);
+
+        if(!$category) {
+            abort(404, 'Category not found.');
+        }
+
         return new CategoryResource($category);
     }
 
