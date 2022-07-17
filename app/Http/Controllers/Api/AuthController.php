@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 use App\Models\User;
@@ -26,6 +27,11 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $defaultCategories = Category::whereNull('user_id')->get();
+        foreach ($defaultCategories as $category) {
+            $user->categories()->create($category->toArray());
+        }
 
         return $user->createToken($request->device_name)->plainTextToken;
     }
